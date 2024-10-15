@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Rosa Romero Gomez rgomez30@gatech.edu">
+    <meta name="contact" content="info@activednsproject.org">
+    <title>Active DNS Project</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap Custom CSS -->
+    <link href="css/bootstrap_custom.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <!--Bootstrap JS-->
+    <script src="js/bootstrap.js"></script>
+</head>
+
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-fixed-top navbar-custom" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Active DNS Project</a>
+        </div>
+        <!-- /.navbar-collapse -->
+
+
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <!-- <li><a href="http://www.activednsproject.org/statistics.html">Statistics</a></li> -->
+                <li><a href="combosquatting.html">Combosquatting</a></li>
+                <!-- <li><a href="https://ipviz.astrolavos.gatech.edu">Open Threat Console</a></li> -->
+
+                <!--<li><a href="get_involved.html">Get Involved</a></li>-->
+                <li class="active"><a href="about.html">About</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+<!--Content-->
+<!-- Page Content -->
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col-sm-8">
+            <h2>The Data</h2>
+            <p>The dataset comes in <a href="https://avro.apache.org/" target="_blank">Avro format</a> which can be
+                processed by several tools like <code><a
+                        href="https://avro.apache.org/docs/current/gettingstartedjava.html"
+                        target="_blank">avro-tools</a></code> or <code><a href="https://pypi.python.org/pypi/fastavro/"
+                                                                          target="_blank">fastavro</a></code> for
+                Python. We are working on a JSON version of the data for applications that do not rely on Java or
+                Hadoop. Please contact us for more information.
+            </p>
+            <p>This is an example of a record from the dataset.</p>
+            <!--https://tohtml.com/-->
+<pre style='color:#000020;background:#f6f8ff;'><span style='color:#406080; '>{</span>
+    <span style='color:#1060b6; '>"date"</span><span style='color:#308080; '>:</span> <span style='color:#1060b6; '>"20161001"</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"qname"</span><span style='color:#308080; '>:</span> <span style='color:#1060b6; '>"gatech.edu."</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"qtype"</span><span style='color:#308080; '>:</span> <span style='color:#008c00; '>1</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"rdata"</span><span style='color:#308080; '>:</span> <span style='color:#1060b6; '>"130.207.160.173"</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"ttl"</span><span style='color:#308080; '>:</span> <span style='color:#008c00; '>300</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"authority_ips"</span><span style='color:#308080; '>:</span> <span style='color:#1060b6; '>"128.61.244.253,168.24.2.35"</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"count"</span><span style='color:#308080; '>:</span> <span style='color:#008c00; '>80</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"hours"</span><span style='color:#308080; '>:</span> <span style='color:#008c00; '>16710647</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"source"</span><span style='color:#308080; '>:</span> <span style='color:#1060b6; '>"gt"</span><span style='color:#308080; '>,</span>
+    <span style='color:#1060b6; '>"sensor"</span><span style='color:#308080; '>:</span> <span style='color:#1060b6; '>"active-dns"</span>
+<span style='color:#406080; '>}</span>
+</pre>
+
+            <p>
+                You can download a small sample of the dataset by clicking here <a
+                    href="http://www.activednsproject.org/sample/active_dns_sample_20161001.json.gz" class="download_label"><span class="label label-primary">active_dns_sample_20161001.json.gz</span></a>
+                <abbr title="MD5: 1c665e90388553a0e8beb267ee7a2e02">(418KB)</abbr>.
+            </p>
+
+            <hr>
+            <h3>Interpreting the Data Fields</h3>
+            The field names in the dataset, are mostly self explanatory and are inline with <a
+                href="https://tools.ietf.org/html/rfc1035" target="_blank">RFC 1035</a>. For simplicity, this list
+            captures the definition of each field.
+            <ul>
+                <li><code>date:</code> The date of the current Resource Record (RR).</li>
+                <li><code>qname:</code> The query name that our recursive resolvers answered; effectively the domain
+                    name.
+                </li>
+                <li><code>qtype:</code> The question type number. A comprehensive list of qtypes can be found on <a
+                        href="https://en.wikipedia.org/wiki/List_of_DNS_record_types" target="_blank">Wikipedia</a>.
+                </li>
+                <li><code>rdata:</code> The data returned by the Authoritative Nameserver(s).</li>
+                <li><code>ttl:</code> The Time To Live for the particular Resource Record (RR).</li>
+                <li><code>authority_ips:</code> The IP addresses of the Authoritative Nameservers (ANS) that replied
+                    with this particular Resource Record (RR).
+                </li>
+                <li><code>count:</code> The number of times this Resource Record (RR) was encountered for the specific
+                    <code>date</code>.
+                </li>
+                <li><code>hours:</code> A 24-bit integer that encodes the time of day that this Resource Record (RR) was
+                    encountered. More information can be found <a href="about.html#hours">here</a>..
+                </li>
+                <li><code>source:</code> The source for the particular Resource Record (RR).</li>
+                <li><code>sensor:</code> The sensor that recorded this Resource Record (RR).</li>
+            </ul>
+
+            <hr>
+
+            <h4 id="hours">The Hours Field</h4>
+            <p>The <code>hours</code> field encodes the hours of the day, that a particular domain name has been
+                queried, in a 24 bit integer. You can use the following Python function that will return a
+                list of hours around the clock, to decode the information.</p>
+
+<pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>def</span> parse_hours<span style='color:#308080; '>(</span>hours<span style='color:#308080; '>)</span><span style='color:#308080; '>:</span>
+    hours <span style='color:#308080; '>=</span> <span style='color:#400000; '>str</span><span style='color:#308080; '>(</span>bin<span style='color:#308080; '>(</span><span style='color:#400000; '>int</span><span style='color:#308080; '>(</span>hours<span style='color:#308080; '>)</span><span style='color:#308080; '>)</span><span style='color:#308080; '>)</span><span style='color:#308080; '>[</span><span style='color:#308080; '>:</span><span style='color:#308080; '>:</span><span style='color:#44aadd; '>-</span><span style='color:#008c00; '>1</span><span style='color:#308080; '>]</span><span style='color:#308080; '>[</span><span style='color:#308080; '>:</span><span style='color:#44aadd; '>-</span><span style='color:#008c00; '>2</span><span style='color:#308080; '>]</span>
+    hours <span style='color:#308080; '>=</span> <span style='color:#1060b6; '>'0'</span> <span style='color:#44aadd; '>*</span> <span style='color:#308080; '>(</span><span style='color:#008c00; '>24</span> <span style='color:#44aadd; '>-</span> <span style='color:#400000; '>len</span><span style='color:#308080; '>(</span>hours<span style='color:#308080; '>)</span><span style='color:#308080; '>)</span> <span style='color:#44aadd; '>+</span> hours
+    <span style='color:#200080; font-weight:bold; '>return</span> <span style='color:#308080; '>[</span>i <span style='color:#200080; font-weight:bold; '>for</span> i <span style='color:#200080; font-weight:bold; '>in</span> <span style='color:#400000; '>xrange</span><span style='color:#308080; '>(</span><span style='color:#008c00; '>0</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>24</span><span style='color:#308080; '>)</span> <span style='color:#200080; font-weight:bold; '>if</span> <span style='color:#400000; '>int</span><span style='color:#308080; '>(</span>hours<span style='color:#308080; '>[</span>i <span style='color:#44aadd; '>-</span> <span style='color:#008c00; '>1</span><span style='color:#308080; '>]</span><span style='color:#308080; '>)</span><span style='color:#308080; '>]</span>
+</pre>
+
+            <p>For the previous JSON excerpt, the output would look like:</p>
+
+<pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>In</span> <span style='color:#308080; '>[</span><span style='color:#008c00; '>2</span><span style='color:#308080; '>]</span><span style='color:#308080; '>:</span> parse_hours<span style='color:#308080; '>(</span><span style='color:#008c00; '>16710647</span><span style='color:#308080; '>)</span>
+<span style='color:#200080; font-weight:bold; '>Out</span><span style='color:#308080; '>[</span><span style='color:#008c00; '>2</span><span style='color:#308080; '>]</span><span style='color:#308080; '>:</span> <span style='color:#308080; '>[</span><span style='color:#008c00; '>0</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>1</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>2</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>3</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>5</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>6</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>7</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>8</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>9</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>10</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>12</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>13</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>14</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>15</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>16</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>18</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>19</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>20</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>21</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>22</span><span style='color:#308080; '>,</span> <span style='color:#008c00; '>23</span><span style='color:#308080; '>]</span>
+</pre>
+
+        </div>
+        <div class="col-sm-4">
+            <h2>Contact Us</h2>
+            <p>To request access to data, please contact <a href="mailto:access@activednsproject.org">access@activednsproject.org</a>.
+                For more information about the project, please contact:</p>
+            <address>
+                <abbr title="Email">E:</abbr> <a href="mailto:info@activednsproject.org">info@activednsproject.org</a>
+            </address>
+        </div>
+    </div>
+</div>
+<!--Content-->
+
+
+<!-- Footer -->
+<div style="margin-top: 80px;">
+    <footer class="panel-footer navbar-fixed-bottom">
+        <div class="container">
+            <p>Active DNS Project &copy; 2022 <a href="http://astrolavos.gatech.edu" target="_blank">Astrolavos</a>,
+                <a href="http://www.gatech.edu" target="_blank">Georgia Institute of Technology</a></p>
+        </div>
+    </footer>
+</div>
+
+
+<!-- /.container -->
+
+
+</body>
+
+</html>

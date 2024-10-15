@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Rosa Romero Gomez rgomez30@gatech.edu">
+    <meta name="contact" content="info@activednsproject.org">
+    <meta http-equiv="refresh" content="86400" >
+    <title>Active DNS Project</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap Custom CSS -->
+    <link href="css/bootstrap_custom.css" rel="stylesheet">
+    <!-- Cluster Vis CSS -->
+    <link href="css/clustersVis.css" rel="stylesheet">
+     <!-- Tooltip CSS -->
+    <link href="css/tooltip.css" rel="stylesheet">
+     <!-- jQuery UI CSS -->
+    <link href="css/jquery-ui.css" rel="stylesheet">
+     <link href="css/jquery-ui.structure.css" rel="stylesheet">
+      <link href="css/jquery-ui.theme.css" rel="stylesheet">
+   
+    
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+
+    <!--Bootstrap JS-->
+    <script src="js/bootstrap.js"></script>
+    <!--D3 JS-->
+    <script src="js/d3.js"></script>
+    <!--D3 Tooltip JS-->
+    <script src="js/d3.tip.js"></script>
+
+    <!--Datepicker customized-->
+     <style type="text/css">
+  
+        div.ui-datepicker-header {
+            margin-top: 5px;
+            text-align: center;
+            background-color: #fff;
+        }
+         
+     </style>
+
+
+</head>
+
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-fixed-top navbar-custom" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Active DNS Project</a>
+        </div>
+        <!-- /.navbar-collapse -->
+
+
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <!-- <li><a href="http://www.activednsproject.org/statistics.html">Statistics</a></li> -->
+                <li class="active"><a href="combosquatting.html">Combosquatting</a></li>
+                 <!-- <li><a href="https://ipviz.astrolavos.gatech.edu">Open Threat Console</a></li> -->
+                <!--<li><a href="get_involved.html">Get Involved</a></li>-->
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!--Content-->
+<!-- Page Content -->
+    
+<div class="container" id="header">
+    <h3>Clustering Analysis for Combosquatting Domains (2016-2020)</h3>
+    <div class="row">
+        <div class="col-md-9">
+            
+            <div class="alert alert-info">
+              <strong>Disclaimer.</strong> This visualization is part of a pending publication around combosquatting, a new type of domain squatting. The authors asked for the results to be hosted on the Active DNS Project website, to support the open datasets for security research.
+            </div>
+                 <!--Calendar-->
+                  <div class="row"  style='vertical-align:bottom;'>
+                    <div class="col-md-3">
+                          <h4>Pick a date:</h4>
+                          <hr class="half-rule"/>
+                           <div class="input-group" style="margin-bottom: 50px">
+                               <input type="text" id="datepicker" class="form-control" placeholder="YYYY-MM-DD" /> <label for="datepicker" class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></label>
+                          </div>
+                    </div>
+
+                    <div class="col-md-5">
+                         <div > 
+                                <h4>Filter by Cluster Label:</h4>
+                                <hr class="half-rule"/>
+                                <div id="labelsFilters"></div>
+                         </div>
+
+                   </div>
+                   <div class="col-md-4">
+                      <div >
+                                 <h4 >Filter by Trademark:</h4>
+                                 <hr class="half-rule"/>
+                                <div id="trademarksFilters" ></div>
+                      </div>            
+
+                   </div>
+                     
+                  </div>
+
+ 
+        </div>
+            <div class="col-md-3">
+                    <h4>Feedback</h4>
+                        If you would like to provide feedback about this project, or have additional questions, please contact:
+                    <address>
+                        <abbr title="Email">E:</abbr> <a href="mailto:info@activednsproject.org">info@activednsproject.org</a>
+                    </address>
+            </div>
+    </div>
+</div>
+<!--Disclaimer-->
+
+    
+
+<!--Disclaimer-->
+
+<div class="container-fluid text-center" id="visualization">
+    
+    <div class="row">
+
+<!--         <div class="col-md-2">
+             <div class="form"> 
+                    <div id="legendFilters" class="form-group"></div>
+             </div>
+
+            <!-- Old Legend -->
+            <!--div class='my-legend'>
+                <div class='legend-title'>Colors</div>
+                    <div class='legend-scale'>
+                          <ul class='legend-labels'>
+                            <li><span style='background:#59ABE3;'></span>Benign </li>
+                            <li><span style='background:#EF4836;'></span>Suspicious </li>
+                            <li><span style='background:#F4D03F;'></span>Unrelated</li>
+                            <li><span style='background:#838383;'></span>Unknown</li>
+                          </ul>
+                    </div> 
+            </div>
+         
+         </div> -->
+
+        
+       <div class="col-md-8">
+            <svg id="clusters" width="800" height="800"></svg>
+        <!--SVG for clusters visualization--> 
+       </div>
+        
+       <div class="col-md-4" id="summary">
+
+       </div>
+       
+   </div>
+    
+    <div id="container">
+    
+        <p><b>Source: TBA</b></p>
+    </div>    
+    </div>
+    
+
+<!--D3 Cluster Visualization-->    
+<script>
+
+
+
+
+var svg = d3.select("svg#clusters"),
+        margin = 20,
+        diameter = +svg.attr("width"),
+        height = +svg.attr("height"),
+        g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+  
+var activeDay = "2016-08-08"; 
+var json,json_path;
+
+ //Available dates
+$.get("clusters_data/available_dates.txt",function(data){
+    
+    var arrayDays= data.split("\n");
+    activeDay = arrayDays[arrayDays.length-1]; 
+    json = "clusters_data/cc_" + activeDay + ".json";
+    callJson(json);
+
+       function available(date) {
+          dmy = date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-'
+              + ('0' + date.getDate()).slice(-2);
+
+          if ($.inArray(dmy, arrayDays) != -1) {
+            return [true, "","Available"];
+          } else {
+            return [false,"","unAvailable"];
+          }
+        }
+       //Set default date to the last date in the data
+       $('#datepicker').datepicker(
+            {
+              dateFormat: 'yy-mm-dd', 
+              beforeShowDay: available,
+              onSelect: function (date) {
+                  json = "clusters_data/cc_" + date + ".json";
+                  callJson(json);
+              }
+            }).datepicker("setDate", activeDay);
+});
+ 
+
+//Create circle packing layout   
+var pack = d3.pack()
+    .size([diameter - margin, diameter - margin])
+    .padding(8);
+    
+var color_hierarchy = d3.scaleLinear()
+    .domain([-1,0,2])
+    .range(['#ffffff','#ffffff','#ECECEC'])
+    .interpolate(d3.interpolateHcl);
+                 
+var color_labels = d3.scaleOrdinal()
+    .domain(["benign","suspicious","unrelated","unknown"])
+    .range(["#59ABE3","#EF4836","#F4D03F",'#838383']);
+        
+// Tooltips
+
+var tip = d3.tip()
+            .offset([-10, 0])  
+            .attr('class', 'd3-tip')
+            .html(function(d) {
+                if (d.depth === 3) {
+                    //Domains
+                    return  "Domain: " + d.data.name + "<br/>" + "Type: " + d.data.type + "<br/>"+"Number of IPs: " + d.data.size; }
+                if(d.depth === 2) {
+                    //Trademarks
+                    return "Trademark: "+ d.data.name; }
+                if (d.depth === 1) {
+               
+                    //Clusters
+                      return "Cluster ID: "+ d.data.name +"<br/>"+ "Score: " + d.data.ranking + "<br/>" + "Label: "+ d.data.cluster_label; }
+
+     }
+                
+    );
+              
+svg.call(tip);
+  
+var callJson = function (json) {
+    d3.json(json, function(error, root) {
+      if (error) throw error;
+        
+  //Remove existing elements first
+  svg.selectAll("circle").remove();
+  svg.selectAll("text").remove();
+
+  root = d3.hierarchy(root)
+     .sum(function(d) { return d.size; })
+      .sort(function(a,b) { 
+     //Sort by size
+      return a.data.ranking,b.data.ranking; });
+
+  var focus = root,
+      nodes = pack(root).descendants(),
+      view;
+
+
+  var circle = g.selectAll("circle")
+    .data(nodes)
+    .enter().append("circle")
+      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+     .style("fill", function(d) { 
+         if (d.depth === 3) {
+             if (d.data.type == ""){
+                 d.data.type="unknown";
+             }
+             return color_labels(d.data.type);  
+         }
+         else if (d.depth === 1) {
+             
+              if (d.data.cluster_label == null){
+                 d.data.cluster_label="unknown";
+                 
+             }
+             
+             return color_labels(d.data.cluster_label);
+             
+         }
+         else {
+             return color_hierarchy(d.depth);}})
+      
+      .on("click", function(d) { 
+          if (focus !== d) zoom(d), d3.event.stopPropagation();
+          //Display information in the summary div 
+          var color_background;
+           
+          if (d.depth === 1) {
+                color_background=color_labels(d.data.cluster_label);
+                var labelIPs='<br/>';
+                for( i=0; i<d.data.IPs.length; i++ )
+                    {
+                        labelIPs=labelIPs + d.data.IPs[i] +" "+ "<a target="+"_blank"+" href="+"http://whois.domaintools.com/"+d.data.IPs[i]+">"+ " "+"<img src="+ "images/domaintools.png"+" " + "width="+"16"+" "+ "height="+"16"+ ">"+   "</a>"+ " " +"<a target="+"_blank"+" href="+"https://www.virustotal.com/en/ip-address/"+d.data.IPs[i]+"/information/"+">"+ " "+"<img src="+ "images/virustotal.png"+" " + "width="+"16"+" "+ "height="+"16"+ ">"+   "</a>"+ '<br />';
+                    }
+                 //console.log(d.data.IPs);
+                //console.log(color_background);
+              
+                 var labelNS='<br/>';
+                for( i=0; i<d.data.NS.length; i++ )
+                    {
+                        labelNS=labelNS + d.data.NS[i] + '<br/>';
+                    }
+              
+                var trademarksArray= d.data.children;
+                var domains='<br/>' ;
+                var trademarks = '<br/>' ;
+              
+                 for (i=0; i<trademarksArray.length; i++) {
+                   trademarks=trademarks+trademarksArray[i].name+ '<br />';
+                }
+              
+                for (i=0; i<trademarksArray.length; i++)
+                    {
+                    for (j=0; j<trademarksArray[i].children.length; j++)
+                        domains=domains+trademarksArray[i].children[j].name  +" "+ "<a target="+"_blank"+" href="+"http://research.domaintools.com/research/whois-history/search/?q="+trademarksArray[i].children[j].name+">"+ " "+"<img src="+ "images/domaintools.png"+" " + "width="+"16"+" "+ "height="+"16"+ ">"+   "</a>"+ " " +"<a target="+"_blank"+" href="+"https://www.virustotal.com/en/url/submission/?force=1&url=http://"+trademarksArray[i].children[j].name+">"+ " "+"<img src="+ "images/virustotal.png"+" " + "width="+"16"+" "+ "height="+"16"+ ">"+   "</a>"+ '<br />';
+                    }
+              
+              
+               //console.log(trademarks);
+                d3.select("#summary").html(
+                    
+        "<div class=" + "panel-group" + " " + "id=" + "accordion" + " " +  "role=" + "tablist"+ " " + "aria-multiselectable=" + "true" + 
+        " " + "style=" + "margin-top: 30px;" + ">" +
+                
+                   "<div class=" + "panel" + ">"+
+                    "<div class=" + "panel-heading" + " " + "role=" + "tab" + " "+ "id=" + "headingOne" + ">"+
+                        "<h4 class=" + "panel-title" + ">"+
+                            "<a role=" + "button" + " "+ "data-toggle=" + "collapse" + " "+ "data-parent=" + "#accordion" + " "+ "href=" + "#collapseTwo" + 
+                               " " + "aria-expanded=" + "true" + " " + "aria-controls=" + "collapseOne" +">" +
+                                "<b>"+"General information: "+"</b>"+ d.data.name+"<br/>"+
+                            "</a>"+
+                        "</h4>"+
+                    "</div>"+
+                    "<div id=" + "collapseTwo" + " " + "class=" + "panel-collapse" + " "+ "role=" + "tabpanel" + " "+
+                         "aria-labelledby=" + "headingOne" + ">"+
+                        "<div class=" + "panel-body" + ">"+
+                                "<b>"+" Score: "+"</b>"+ d.data.ranking+"<br/>"+
+                                "<b>"+" Label: "+"</b>"+ d.data.cluster_label+"<br/>"+
+                                "<b>"+" Trademarks: "+"</b>"+ trademarks+"<br/>"+
+                        "</div>"+
+                    "</div>"+
+                "</div>"+ 
+                 "<div class=" + "panel" + ">"+
+                    "<div class=" + "panel-heading" + " " + "role=" + "tab" + " "+ "id=" + "headingOne" + ">"+
+                        "<h4 class=" + "panel-title" + ">"+
+                            "<a role=" + "button" + " "+ "data-toggle=" + "collapse" + " "+ "data-parent=" + "#accordion" + " "+ "href=" + "#collapseThree" + 
+                               " " + "aria-expanded=" + "true" + " " + "aria-controls=" + "collapseOne" +">" +
+                                "IPs"+
+                            "</a>"+
+                        "</h4>"+
+                    "</div>"+
+                    "<div id=" + "collapseThree" + " " + "class=" + "panel-collapse" + " "+ "role=" + "tabpanel" + " "+
+                         "aria-labelledby=" + "headingOne" + ">"+
+                        "<div class=" + "panel-body" + ">"+
+                             labelIPs+"<br/>"+
+                        "</div>"+
+                    "</div>"+
+                "</div>"+ 
+                 "<div class=" + "panel" + ">"+
+                    "<div class=" + "panel-heading" + " " + "role=" + "tab" + " "+ "id=" + "headingOne" + ">"+
+                        "<h4 class=" + "panel-title" + ">"+
+                            "<a role=" + "button" + " "+ "data-toggle=" + "collapse" + " "+ "data-parent=" + "#accordion" + " "+ "href=" + "#collapseFour" + 
+                               " " + "aria-expanded=" + "true" + " " + "aria-controls=" + "collapseOne" +">" +
+                                "Name Servers"+
+                            "</a>"+
+                        "</h4>"+
+                    "</div>"+
+                    "<div id=" + "collapseFour" + " " + "class=" + "panel-collapse" + " "+ "role=" + "tabpanel" + " "+
+                         "aria-labelledby=" + "headingOne" + ">"+
+                        "<div class=" + "panel-body" + ">"+
+                           labelNS+"<br/>"+
+                        "</div>"+
+                    "</div>"+
+                "</div>"+ 
+                    
+                "<div class=" + "panel" + ">"+
+                    "<div class=" + "panel-heading" + " " + "role=" + "tab" + " "+ "id=" + "headingOne" + ">"+
+                        "<h4 class=" + "panel-title" + ">"+
+                            "<a role=" + "button" + " "+ "data-toggle=" + "collapse" + " "+ "data-parent=" + "#accordion" + " "+ "href=" + "#collapseFive" + 
+                               " " + "aria-expanded=" + "true" + " " + "aria-controls=" + "collapseOne" +">" +
+                                "Domain Names"+
+                            "</a>"+
+                        "</h4>"+
+                    "</div>"+
+                    "<div id=" + "collapseFive" + " " + "class=" + "panel-collapse" + " "+ "role=" + "tabpanel" + " "+
+                         "aria-labelledby=" + "headingOne" + ">"+
+                        "<div class=" + "panel-body" + ">"+
+                           domains+"<br/>"+
+                        "</div>"+
+                      "<a href=\"http://www.activednsproject.org/#top\">Back to top</a>"+
+                        "</div>"+
+                    "</div>"+
+                "</div>"+ 
+                   
+                    
+                    
+                    
+                    
+            "</div>"    
+                    
+                    
+                /**    
+                     "<div class="+ "panel"+ " "+ "id="+"#top"+">"+
+                            "<div class="+"panel-heading"+">"+
+                                "<b>"+"Cluster ID: "+"</b>"+ d.data.name+"<br/>"+
+                                "<b>"+" Score: "+"</b>"+ d.data.ranking+
+                                
+                            "</div>"+
+                             "<div class=" + "panel-body"+">"+
+                                "<b>"+"IPs: "+"</b>"+ labelIPs+"<br/>"+
+                        "<b>"+"Name Servers: "+"</b>"+ labelNS+"<br/>"+
+                         "<b>"+"Domain Names: "+"</b>"+ domains+"<br/>"+
+                        
+                             "</div>"+
+                     "<a href="http://www.activednsproject.org/+"#top" + ">" +"Back to top"+"</a>"+
+                        "</div>"
+                */
+                    
+
+              );
+              
+                d3.selectAll(".panel-heading").style('background-color', color_background)
+                                            .style('color',"white");
+               d3.selectAll(".panel").attr('class', 'panel panel-default');
+               d3.selectAll(".panel-collapse").attr('class', 'panel-collapse collapse');
+                
+                
+             
+
+          }
+          else if (d.depth === 2) {
+              color_background=color_hierarchy(d.depth);
+              d3.select("#summary").html(
+               
+                        "<div class="+ "panel"+">"+
+                             "<div class=" + "panel-heading"+">"+
+                                 "<b>"+"Trademark: "+"</b>"+ d.data.name+ 
+                             "</div>"+
+                        "</div>"
+ 
+              );
+              
+            d3.selectAll(".panel-body").style('background-color', color_background);
+            d3.selectAll(".panel").attr('class', 'panel panel-default');
+
+              
+          }  else if (d.depth === 3) {
+              
+                color_background=color_labels(d.data.type);
+
+                d3.select("#summary").html(
+                    
+                     "<div class="+ "panel"+">"+
+                            "<div class="+"panel-heading"+">"+
+                                 "<b>"+"Domain name: "+ "</b>"+ d.data.name+
+                                
+                            "</div>"+
+                             "<div class=" + "panel-body"+">"+
+                                  "<a target="+"_blank"+" href="+"http://research.domaintools.com/research/whois-history/search/?q="+d.data.name+">"+ " "+"<img src="+ "images/domaintools.png"+" " + "width="+"16"+" "+ "height="+"16"+ ">"+   "</a>"+ " " +"<a target="+"_blank"+" href="+"https://www.virustotal.com/en/url/submission/?force=1&url=http://"+d.data.name+">"+ " "+"<img src="+ "images/virustotal.png"+" " + "width="+"16"+" "+ "height="+"16"+ ">"+   "</a>"+ "<br/>"+
+                                 "<b>"+"Type: "+"</b>"+ d.data.type+ "<br/>"+
+                                 "<b>"+"Number of IPs: "+ "</b>"+ d.data.size+
+                             "</div>"+
+                        "</div>"
+                    
+                    
+                );
+            
+               d3.selectAll(".panel-heading").style('background-color', color_background)
+                                          .style('color',"white");
+              d3.selectAll(".panel").attr('class', 'panel panel-default');
+          }
+          
+         
+
+      })
+      .on("mouseover",tip.show)
+      .on("mouseout",tip.hide);
+
+
+    
+    
+  var text = g.selectAll("text")
+    .data(nodes)
+    .enter().append("text")
+      .attr("class", "label")
+      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+      .style("display", function(d) { return d.parent === root ? "inline" : "no"; })
+      .text(function(d) { return d.data.name; });
+
+  var node = g.selectAll("circle,text");
+
+  svg
+      .style("background", color_hierarchy(-1))
+      .on("click", function() { 
+              zoom(root); 
+              d3.select("#summary .panel-group").remove();
+      });
+
+  zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+  function zoom(d) {
+    var focus0 = focus; focus = d;
+
+    var transition = d3.transition()
+        .duration(d3.event.altKey ? 7500 : 750)
+        .tween("zoom", function(d) {
+          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+          return function(t) { zoomTo(i(t)); };
+        });
+
+    transition.selectAll("text")
+      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+  }
+
+  function zoomTo(v) {
+    var k = diameter / v[2]; view = v;
+    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+    circle.attr("r", function(d) { return d.r * k; });
+  }
+    
+    });
+};
+    
+
+d3.select(self.frameElement).style("height", diameter + "px");
+
+/*************************************CREATE DYNAMIC FILTERS *************************************************************/
+
+  var form = d3.select("#labelsFilters").append("form");
+  var data_legend_check_buttons = ["Benign","Suspicious","Unrelated","Unknown"]; 
+  var labels = form.selectAll("label")
+            .data(data_legend_check_buttons)
+            .enter()
+            .append("label")
+  
+            .text(function(d) {return "        "+d+"        ";})
+            .style("color",function(d,i) 
+               { if (i == 0) return "#59ABE3";
+                  else if (i == 1) return "#EF4836";
+                    else if (i == 2) return "#F4D03F";
+                        else return "#838383";
+
+              }
+
+            )
+            .append("input")
+            .attr('type','checkbox')
+              .attr("value", function(d,i)
+
+              { if (i == 0) return "benign";
+                  else if (i == 1) return "suspicious";
+                    else if (i == 2) return "unrelated";
+                        else return "unknown";
+
+              })
+              .attr("name", "filter")
+              .property("checked",'true');
+
+  //Filter clusters and domain names according to labrl  
+    d3.selectAll("[name=filter]").on("change", function() {
+
+         var selected = this.value;
+         display = this.checked ? "1" : "0.3";
+
+        svg.selectAll("circle")
+          .filter(function(d) {
+             if (d.depth === 1) {
+
+                return selected == d.data.cluster_label;
+             }
+              if (d.depth === 2) {
+
+               return selected == d.parent.data.cluster_label;
+              }
+             if (d.depth == 3) {
+
+               return selected === d.parent.parent.data.cluster_label; 
+
+             }
+
+          })
+          .attr("opacity", display)
+
+          }
+
+      );
+
+
+
+  // //Filter clusters according to trademark
+
+
+  var form = d3.select("#trademarksFilters").append("form");
+  var data_trademarks_check_buttons = ["Google","Facebook","Bank of America","YouTube","Wells Fargo"]; 
+  var labels = form.selectAll("label")
+            .data(data_trademarks_check_buttons)
+            .enter()
+            .append("label")
+            .text(function(d) {return "        "+d+"        ";})
+            .append("input")
+            .attr('type','checkbox')
+              .attr("value", function(d,i)
+
+              { if (i == 0) return "Google";
+                  else if (i == 1) return "Facebook";
+                    else if (i == 2) return "Bank of America";
+                      else if (i == 3) return "YouTube";
+                        else return "Wells Fargo";
+
+              })
+              .attr("name", "filterTrademarks")
+              .property("checked",'true');
+
+    d3.selectAll("[name=filterTrademarks]").on("change", function() {
+
+         var selected = this.value;
+         console.log(selected);
+         display = this.checked ? "1" : "0.3";
+
+        svg.selectAll("circle")
+          .filter(function(d) {
+              if (d.depth === 2) {
+                console.log(d.data.name);
+               return selected == d.data.name;
+              }
+             if (d.depth == 3) {
+               return selected === d.parent.data.name; 
+
+             }
+
+          })
+          .attr("opacity", display)
+        
+          });
+            
+            
+
+    
+/*************************************CREATE DYNAMIC FILTERS *************************************************************/
+
+
+
+</script>
+
+
+<!-- Footer -->
+<div style="margin-top: 80px;">
+    <footer class="panel-footer navbar-fixed-bottom">
+        <div class="container">
+            <p>Active DNS Project &copy; 2022 <a href="http://astrolavos.gatech.edu" target="_blank">Astrolavos</a>,
+                <a href="http://www.gatech.edu" target="_blank">Georgia Institute of Technology</a></p>
+        </div>
+    </footer>
+</div>
+
+
+<!-- /.container -->
+<!--script src="scripts/clusterVis.js"></script-->
+</body>
+</html>
